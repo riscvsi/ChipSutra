@@ -1,0 +1,19 @@
+create_power_domain pd_SOC_TOP -include_scope
+
+create_supply_port vss -direction in -domain pd_SOC_TOP
+create_supply_port vdd -direction in -domain pd_SOC_TOP
+
+create_supply_net vss -domain pd_SOC_TOP
+create_supply_net vdd -domain pd_SOC_TOP
+
+connect_supply_net vss -ports vss
+connect_supply_net vdd -ports vdd
+
+set_domain_supply_net pd_SOC_TOP -primary_power_net vdd -primary_ground_net vss
+
+add_port_state vdd -state {active_state 1} -state {off_state off}
+
+create_pst pstSoc -supplies {vdd }
+
+add_pst_state state1 -pst pstSoc -state {active_state }
+

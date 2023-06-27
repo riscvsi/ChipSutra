@@ -1,0 +1,22 @@
+ # generating dummy upf file 
+# creating top power domain
+create_power_domain pd_top -include_scope
+
+create_supply_port VDD -direction in -domain pd_top
+create_supply_port VSS -direction in -domain pd_top
+
+create_supply_net VDD -domain pd_top
+create_supply_net VSS -domain pd_top
+
+connect_supply_net VDD -ports VDD
+connect_supply_net VSS -ports VSS
+
+set_domain_supply_net pd_top -primary_power_net VSS -primary_ground_net VSS
+
+add_port_state VDDH -state {HighVoltage 1.1}
+add_port_state VSS -state {pwr_gnd 0.0}
+
+create_pst pwr_state_table -supplies {VCCH VSS}
+
+add_pst_state FUNC -pst pwr_state_table -state { HighVoltage pwr_gnd}
+
